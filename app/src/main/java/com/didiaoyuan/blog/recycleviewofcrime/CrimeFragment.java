@@ -24,6 +24,7 @@ public class CrimeFragment extends Fragment {
     private EditText mEditText;
     private Button mDateButton;
     private CheckBox mCheckBox;
+    private static int mClickIndex;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +60,7 @@ public class CrimeFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 //         添加动作
                 mCrime.setTitle(charSequence.toString());
+                returnResult();
             }
 
             @Override
@@ -76,11 +78,17 @@ public class CrimeFragment extends Fragment {
         });
         return v;
     }
-    public static CrimeFragment newInstance(UUID crimeID){
+    public static CrimeFragment newInstance(UUID crimeID,int index){
+        mClickIndex=index;
         Bundle args=new Bundle();
         args.putSerializable("UUID",crimeID);
         CrimeFragment fragment=new CrimeFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+    public void returnResult(){
+        Intent data=new Intent();
+        data.putExtra("index",mClickIndex);
+        getActivity().setResult(Activity.RESULT_CANCELED,data);
     }
 }

@@ -11,13 +11,15 @@ public class MainActivity extends SimpleFragmentActivity {
     @Override
     protected Fragment createFragment() {
         UUID crimeID= (UUID) getIntent().getSerializableExtra("KEY");
-        return CrimeFragment.newInstance(crimeID);
+        int clickIndex=getIntent().getIntExtra("index",-1);
+        return CrimeFragment.newInstance(crimeID,clickIndex);
     }
 
 //    方法
-    public static Intent newIntent(Context PackageContext, UUID crimeID){
+    public static Intent newIntent(Context PackageContext, UUID crimeID,int index){
         Intent i=new Intent(PackageContext,MainActivity.class);
         i.putExtra("KEY",crimeID);
+        i.putExtra("index",index);
         return i;
     }
 }

@@ -1,23 +1,17 @@
 package com.didiaoyuan.blog.recycleviewofcrime;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
-import java.util.Date;
 import java.util.List;
 
 public class CrimeListFragment extends Fragment {
@@ -25,6 +19,7 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private CrimeAdapter mCrimeAdapter;
     private int mIndexNotific;
+    private static final int INTENT_REQUEST_CODE=1;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -73,15 +68,29 @@ public class CrimeListFragment extends Fragment {
 /*
 * 在Fragment中获取上上下文用getActivity
 * */
+
     @Override
     public void onClick(View view) {
 //        Toast.makeText(getActivity(),"点击了"+mCrime.getTitle(),Toast.LENGTH_LONG).show();
         mIndexNotific=mRecyclerView.getChildAdapterPosition(view);
-        Intent i=MainActivity.newIntent(getActivity(),mCrime.getId());
-        startActivity(i);
+        Intent i=MainActivity.newIntent(getActivity(),mCrime.getId(),mIndexNotific);
+
+        startActivityForResult(i,INTENT_REQUEST_CODE);
     }
 }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode!=getActivity().RESULT_CANCELED){
+            return;
+        }
+        if(requestCode==INTENT_REQUEST_CODE){
+            if(data==null){
+                return;
+            }
+            mIndexNotific=data.getIntExtra("index",0);
+        }
+    }
 
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder>{
         /*
