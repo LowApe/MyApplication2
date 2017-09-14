@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.List;
 import java.util.UUID;
@@ -37,6 +38,14 @@ public class CrimePagerActivity extends FragmentActivity {
                 return mCrimes.size();
             }
         });
+        UUID crimeID= (UUID) getIntent().getSerializableExtra("CrimeId");
+        Log.e("key",crimeID+"");
+        for (int i=0;i<mCrimes.size();i++){
+            if(mCrimes.get(i).getId().equals(crimeID)){
+                mViewPager.setCurrentItem(i);
+                break;
+            }
+        }
     }
 //    方法
     public static Intent newIntent(Context packagecontext, UUID crimeID,int index){
