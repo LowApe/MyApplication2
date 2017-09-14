@@ -39,9 +39,10 @@ public class CrimePagerActivity extends FragmentActivity {
         });
     }
 //    方法
-    public Intent newIntent(Context packagecontext, UUID crimeID){
+    public static Intent newIntent(Context packagecontext, UUID crimeID,int index){
         Intent i=new Intent(packagecontext,CrimePagerActivity.class);
         i.putExtra("CrimeId",crimeID);
+        i.putExtra("index",index);
         return i;
     }
 }

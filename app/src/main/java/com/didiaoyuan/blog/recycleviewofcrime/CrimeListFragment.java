@@ -73,8 +73,8 @@ public class CrimeListFragment extends Fragment {
     public void onClick(View view) {
 //        Toast.makeText(getActivity(),"点击了"+mCrime.getTitle(),Toast.LENGTH_LONG).show();
         mIndexNotific=mRecyclerView.getChildAdapterPosition(view);
-        Intent i=MainActivity.newIntent(getActivity(),mCrime.getId(),mIndexNotific);
-
+//        Intent i=MainActivity.newIntent(getActivity(),mCrime.getId(),mIndexNotific);
+        Intent i=CrimePagerActivity.newIntent(getActivity(),mCrime.getId(),mIndexNotific);
         startActivityForResult(i,INTENT_REQUEST_CODE);
     }
 }
