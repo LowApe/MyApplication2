@@ -39,7 +39,6 @@ public class CrimePagerActivity extends FragmentActivity {
             }
         });
         UUID crimeID= (UUID) getIntent().getSerializableExtra("CrimeId");
-        Log.e("key",crimeID+"");
         for (int i=0;i<mCrimes.size();i++){
             if(mCrimes.get(i).getId().equals(crimeID)){
                 mViewPager.setCurrentItem(i);
