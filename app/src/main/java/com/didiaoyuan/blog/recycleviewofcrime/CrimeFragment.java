@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import java.util.Date;
 import java.util.UUID;
 
 public class CrimeFragment extends Fragment {
@@ -74,7 +75,8 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 FragmentManager fm=getFragmentManager();
-                DatePickerFragment dialog=new DatePickerFragment();
+                Date date=mCrime.getDate();
+                DatePickerFragment dialog=DatePickerFragment.newInstance(date);
                 dialog.show(fm,"dialog");
             }
         });
