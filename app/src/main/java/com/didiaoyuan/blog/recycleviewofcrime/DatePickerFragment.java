@@ -9,7 +9,7 @@ import android.support.v7.app.AlertDialog;
  * Created by Mr.Qu on 2017/9/15.
  */
 
-public class DatePickerFragment extends DialogFragment{
+public class DatePickerFragment extends android.support.v4.app.DialogFragment{
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
