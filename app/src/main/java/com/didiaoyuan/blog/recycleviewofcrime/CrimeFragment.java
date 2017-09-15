@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class CrimeFragment extends Fragment {
     private Button mDateButton;
     private CheckBox mCheckBox;
     private static int mClickIndex;
+    private static final int RELATIVE_REQUEST_CODE=0;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +79,8 @@ public class CrimeFragment extends Fragment {
                 FragmentManager fm=getFragmentManager();
                 Date date=mCrime.getDate();
                 DatePickerFragment dialog=DatePickerFragment.newInstance(date);
+//                添加关联
+                dialog.setTargetFragment(CrimeFragment.this,RELATIVE_REQUEST_CODE);
                 dialog.show(fm,"dialog");
             }
         });
@@ -106,5 +110,17 @@ public class CrimeFragment extends Fragment {
         Intent data=new Intent();
         data.putExtra("index",mClickIndex);
         getActivity().setResult(Activity.RESULT_CANCELED,data);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode!=Activity.RESULT_OK){
+            return;
+        }
+        if(requestCode==RELATIVE_REQUEST_CODE){
+            Date date = (Date) data.getSerializableExtra("Date");
+            mCrime.setDate(date);
+            mDateButton.setText(mCrime.getDate().toString());
+        }
     }
 }
