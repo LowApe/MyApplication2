@@ -71,6 +71,22 @@ public class CrimeFragment extends Fragment {
 
             }
         });
+        mDateButton.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                returnResult();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         mDateButton.setText(mCrime.getDate().toString());
 //        mDateButton.setEnabled(false);
         mDateButton.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +104,7 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mCrime.setSolved(b);
+                returnResult();
             }
         });
         return v;

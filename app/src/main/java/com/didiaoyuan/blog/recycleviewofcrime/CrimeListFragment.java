@@ -41,6 +41,7 @@ public class CrimeListFragment extends Fragment {
             mRecyclerView.setAdapter(mCrimeAdapter);
         }else{
 //            索引减1
+//            Log.e("index",mIndexNotific+"");
             mCrimeAdapter.notifyItemChanged(mIndexNotific-1);
         }
     }
