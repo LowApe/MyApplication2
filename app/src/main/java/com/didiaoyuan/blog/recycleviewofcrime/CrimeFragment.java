@@ -88,6 +88,9 @@ public class CrimeFragment extends Fragment {
         });
         return v;
     }
+    /*
+    * 返回一个带参数的Fragment
+    * */
     public static CrimeFragment newInstance(UUID crimeID,int index){
         mClickIndex=index;
         Bundle args=new Bundle();
@@ -96,6 +99,9 @@ public class CrimeFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+    /*
+    * Fragment不能设置返回结果。通过该方法设置返回结果
+    * */
     public void returnResult(){
         Intent data=new Intent();
         data.putExtra("index",mClickIndex);

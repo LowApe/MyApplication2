@@ -24,6 +24,7 @@ public class CrimeListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//        获取列表View对象并返回生成视图
         View v=inflater.inflate(R.layout.activity_crime_list_fragment,container,false);
 //        获取组件
         mRecyclerView=v.findViewById(R.id.fragment_recycler_view);
@@ -31,7 +32,7 @@ public class CrimeListFragment extends Fragment {
         updateUI();
         return v;
     }
-//    方法
+//    更新数据与视图方法
     private void updateUI(){
         CrimeLab crimeLab=CrimeLab.get(getActivity());
         List<Crime> crimes=crimeLab.getCrimes();
@@ -44,7 +45,7 @@ public class CrimeListFragment extends Fragment {
         }
     }
 
-//    内部类
+//     ViewHolder内部类，生成itemView，并通过bindCrime()绑定数据，并进行点击事件
     private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         private Crime mCrime;
         private TextView mTitleTextView;
@@ -80,7 +81,7 @@ public class CrimeListFragment extends Fragment {
         startActivityForResult(i,INTENT_REQUEST_CODE);
     }
 }
-
+//      返回Intent的结果
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode!=getActivity().RESULT_CANCELED){
@@ -93,7 +94,7 @@ public class CrimeListFragment extends Fragment {
             mIndexNotific=data.getIntExtra("index",0);
         }
     }
-
+//      Adapter的内部类，进行获取数据，并将数据绑定到ViewHolder
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder>{
         /*
         * adapter 获取模型数据，并利用ViewHolder填充视图
@@ -106,6 +107,7 @@ public class CrimeListFragment extends Fragment {
         @Override
         public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater=LayoutInflater.from(getActivity());
+//            创建一个每一个ItemView的View对象
             View view=layoutInflater.inflate(R.layout.list_item_crime,parent,false);
             return new CrimeHolder(view);
         }
@@ -129,7 +131,9 @@ public class CrimeListFragment extends Fragment {
             return mCrimes.size();
         }
     }
-
+/*
+* 当返回此页面，更新视图
+* */
     @Override
     public void onResume() {
         super.onResume();

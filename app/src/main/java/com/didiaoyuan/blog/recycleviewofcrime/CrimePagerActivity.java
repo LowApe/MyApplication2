@@ -21,6 +21,7 @@ public class CrimePagerActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        加载ViewPager布局
         setContentView(R.layout.activity_crime_pager);
 //        获取组件
         mViewPager=findViewById(R.id.view_pager);
@@ -29,7 +30,9 @@ public class CrimePagerActivity extends FragmentActivity {
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
             public Fragment getItem(int position) {
+//                获取模型层列表的位置
                 Crime crime=mCrimes.get(position);
+//              生成一个拥有特定位置的Fragment
                 return CrimeFragment.newInstance(crime.getId(),position);
             }
 
@@ -38,6 +41,7 @@ public class CrimePagerActivity extends FragmentActivity {
                 return mCrimes.size();
             }
         });
+//        通过匹配Intent的ID与列表相匹配，进入当前id页面
         UUID crimeID= (UUID) getIntent().getSerializableExtra("CrimeId");
         for (int i=0;i<mCrimes.size();i++){
             if(mCrimes.get(i).getId().equals(crimeID)){
