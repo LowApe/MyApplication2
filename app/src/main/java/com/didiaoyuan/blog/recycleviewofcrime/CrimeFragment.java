@@ -68,7 +68,7 @@ public class CrimeFragment extends Fragment {
             }
         });
         mDateButton.setText(mCrime.getDate().toString());
-        mDateButton.setEnabled(false);
+//        mDateButton.setEnabled(false);
         mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
