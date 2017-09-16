@@ -51,8 +51,9 @@ public class CrimeListFragment extends Fragment {
             mRecyclerView.setAdapter(mCrimeAdapter);
         }else{
 //            索引减1
-//            Log.e("index",mIndexNotific+"");
-            mCrimeAdapter.notifyItemChanged(mIndexNotific-1);
+//            Log.e("update",mIndexNotific+"");
+            mCrimeAdapter.notifyItemChanged(mIndexNotific);
+
         }
     }
 
@@ -64,7 +65,6 @@ public class CrimeListFragment extends Fragment {
         private TextView mDateTextView;
     public CrimeHolder(View itemView) {
         super(itemView);
-
         mTitleTextView= itemView.findViewById(R.id.list_title);
         itemView.setOnClickListener(this);
         mCheckBox= itemView.findViewById(R.id.list_solve);
@@ -72,7 +72,6 @@ public class CrimeListFragment extends Fragment {
     }
 
     public void bindCrime(Crime crime){
-
         mCrime=crime;
         mTitleTextView.setText(mCrime.getTitle());
         mCheckBox.setChecked(mCrime.isSolved());
@@ -88,7 +87,8 @@ public class CrimeListFragment extends Fragment {
 //        Toast.makeText(getActivity(),"点击了"+mCrime.getTitle(),Toast.LENGTH_LONG).show();
         mIndexNotific=mRecyclerView.getChildAdapterPosition(view);
 //        Intent i=MainActivity.newIntent(getActivity(),mCrime.getId(),mIndexNotific);
-        Intent i=CrimePagerActivity.newIntent(getActivity(),mCrime.getId(),mIndexNotific);
+        Log.e("click",mIndexNotific+"");
+        Intent i=CrimePagerActivity.newIntent(getActivity(),mCrime.getId());
         startActivityForResult(i,INTENT_REQUEST_CODE);
     }
 }
@@ -102,7 +102,6 @@ public class CrimeListFragment extends Fragment {
             if(data==null){
                 return;
             }
-            mIndexNotific=data.getIntExtra("index",0);
         }
     }
 //      Adapter的内部类，进行获取数据，并将数据绑定到ViewHolder
@@ -164,12 +163,11 @@ public class CrimeListFragment extends Fragment {
                 Crime crime=new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
                 Intent i=CrimePagerActivity.newIntent(getActivity()
-                ,crime.getId(),item.getGroupId());
+                ,crime.getId());
                 startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-
         }
     }
 }

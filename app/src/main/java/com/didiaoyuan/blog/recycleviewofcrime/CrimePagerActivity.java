@@ -51,12 +51,17 @@ public class CrimePagerActivity extends AppCompatActivity {
         }
     }
 //    方法
-    public static Intent newIntent(Context packagecontext, UUID crimeID,int index){
+    public static Intent newIntent(Context packagecontext, UUID crimeID){
         Intent i=new Intent(packagecontext,CrimePagerActivity.class);
         i.putExtra("CrimeId",crimeID);
-        i.putExtra("index",index);
+//        i.putExtra("index",index);
         return i;
     }
+//    public static Intent newIntent(Context packagecontext, UUID crimeID){
+//        Intent i=new Intent(packagecontext,CrimePagerActivity.class);
+//        i.putExtra("CrimeId",crimeID);
+//        return i;
+//    }
 
 
 }
