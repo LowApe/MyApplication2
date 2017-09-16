@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RecycleViewOfCrime</string>
+    <string name="ok">New Crime</string>
 </resources>
