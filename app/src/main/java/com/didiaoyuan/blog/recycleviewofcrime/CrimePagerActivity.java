@@ -57,4 +57,6 @@ public class CrimePagerActivity extends AppCompatActivity {
         i.putExtra("index",index);
         return i;
     }
+
+
 }

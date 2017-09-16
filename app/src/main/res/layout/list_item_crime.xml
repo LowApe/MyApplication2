@@ -9,14 +9,14 @@
 
         <TextView
             android:id="@+id/list_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="title"
             android:layout_weight="8"
             />
         <CheckBox
             android:id="@+id/list_solve"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="solved"
             android:layout_weight="1"
@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/list_date"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="title"
         android:layout_weight="8"
