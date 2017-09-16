@@ -6,13 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by Mr.Qu on 2017/9/10.
  * 这是一个通用的加载Fragment的超类
  */
 
-public abstract class SimpleFragmentActivity extends FragmentActivity{
+public abstract class SimpleFragmentActivity extends AppCompatActivity{
 //    添加一个抽象方法来生成Fragment
     protected abstract Fragment createFragment();
     @Override

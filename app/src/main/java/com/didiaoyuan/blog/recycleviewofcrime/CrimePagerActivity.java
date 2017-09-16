@@ -14,7 +14,7 @@ import android.util.Log;
 import java.util.List;
 import java.util.UUID;
 
-public class CrimePagerActivity extends FragmentActivity {
+public class CrimePagerActivity extends AppCompatActivity {
 //声明变量
     private ViewPager mViewPager;
     private List<Crime> mCrimes;
@@ -24,7 +24,7 @@ public class CrimePagerActivity extends FragmentActivity {
 //        加载ViewPager布局
         setContentView(R.layout.activity_crime_pager);
 //        获取组件
-        mViewPager=findViewById(R.id.view_pager);
+        mViewPager= (ViewPager) findViewById(R.id.view_pager);
         mCrimes=CrimeLab.get(this).getCrimes();
         FragmentManager fm=getSupportFragmentManager();/*FragmentStatePagerAdapter需要fragmentManager*/
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
