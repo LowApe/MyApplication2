@@ -14,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -76,7 +78,13 @@ public class CrimeListFragment extends Fragment {
         mTitleTextView.setText(mCrime.getTitle());
         mCheckBox.setChecked(mCrime.isSolved());
         mDateTextView.setText(mCrime.getDate().toString());
-
+//给checkbox添加点击事件
+        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mCrime.setSolved(b);
+            }
+        });
     }
 /*
 * 在Fragment中获取上上下文用getActivity
