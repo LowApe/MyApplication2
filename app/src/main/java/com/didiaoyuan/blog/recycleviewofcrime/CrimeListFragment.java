@@ -101,7 +101,7 @@ public class CrimeListFragment extends Fragment {
 //        Toast.makeText(getActivity(),"点击了"+mCrime.getTitle(),Toast.LENGTH_LONG).show();
         mIndexNotific=mRecyclerView.getChildAdapterPosition(view);
 //        Intent i=MainActivity.newIntent(getActivity(),mCrime.getId(),mIndexNotific);
-        Log.e("click",mIndexNotific+"");
+//        Log.e("click",mIndexNotific+"");
         Intent i=CrimePagerActivity.newIntent(getActivity(),mCrime.getId());
         startActivityForResult(i,INTENT_REQUEST_CODE);
     }
@@ -169,7 +169,7 @@ public class CrimeListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_crime_list,menu);
         MenuItem subtitleItem=menu.findItem(R.id.menu_item_show_subtitle);
-        Log.e("key",mSubtitleVisible+"");
+//        Log.e("key",mSubtitleVisible+"");
         if(mSubtitleVisible){
             subtitleItem.setTitle(R.string.hide_subtitle);
         }else{
