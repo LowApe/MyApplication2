@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,6 +27,7 @@ public class CrimeListFragment extends Fragment {
     private CrimeAdapter mCrimeAdapter;
     private int mIndexNotific;
     private static final int INTENT_REQUEST_CODE=1;
+    private boolean mSubtitleVisible;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -162,6 +164,13 @@ public class CrimeListFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_crime_list,menu);
+        MenuItem subtitleItem=menu.findItem(R.id.menu_item_show_subtitle);
+        Log.e("key",mSubtitleVisible+"");
+        if(mSubtitleVisible){
+            subtitleItem.setTitle(R.string.hide_subtitle);
+        }else{
+            subtitleItem.setTitle(R.string.show_subtitle);
+        }
     }
 
     @Override
@@ -174,8 +183,25 @@ public class CrimeListFragment extends Fragment {
                 ,crime.getId());
                 startActivity(i);
                 return true;
+            case R.id.menu_item_show_subtitle:
+                mSubtitleVisible=!mSubtitleVisible;
+                getActivity().invalidateOptionsMenu();
+                updateSubtitle();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    private void updateSubtitle(){
+        CrimeLab crimeLab=CrimeLab.get(getActivity());
+        int crimeCount=crimeLab.getCrimes().size();
+//        替换站位符
+        String subtitle=getString(R.string.subtitle_format,crimeCount);
+//        强制转换为AppCompat
+        if(!mSubtitleVisible){
+            subtitle=null;
+        }
+        AppCompatActivity activity= (AppCompatActivity) getActivity();
+        activity.getSupportActionBar().setSubtitle(subtitle);
     }
 }
