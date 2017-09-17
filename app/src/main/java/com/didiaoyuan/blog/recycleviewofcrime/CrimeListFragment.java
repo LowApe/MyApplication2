@@ -32,6 +32,7 @@ public class CrimeListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
     }
 
@@ -43,6 +44,9 @@ public class CrimeListFragment extends Fragment {
 //        获取组件
         mRecyclerView=v.findViewById(R.id.fragment_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        if(savedInstanceState!=null){
+            mSubtitleVisible=savedInstanceState.getBoolean("count");
+        }
         updateUI();
         return v;
     }
@@ -203,5 +207,11 @@ public class CrimeListFragment extends Fragment {
         }
         AppCompatActivity activity= (AppCompatActivity) getActivity();
         activity.getSupportActionBar().setSubtitle(subtitle);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean("count",mSubtitleVisible);
     }
 }
