@@ -57,7 +57,7 @@ public class CrimeListFragment extends Fragment {
 //            索引减1
 //            Log.e("update",mIndexNotific+"");
             mCrimeAdapter.notifyItemChanged(mIndexNotific);
-
+            updateSubtitle();
         }
     }
 
