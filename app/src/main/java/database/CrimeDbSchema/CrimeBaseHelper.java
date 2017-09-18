@@ -4,20 +4,32 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import database.CrimeDbSchema.CrimeDbSchema.CrimeTable;
+
 /**
  * Created by Mr.Qu on 2017/9/18.
  */
 
-public class CrimeBaseHelper extends SQLiteOpenHelper{
-//    定义书库版本和名称变量
-    private static final int VERSION=1;
-    private static final String DATABASE_NAME="crimeBase.db";
-    public CrimeBaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
-        super(context, name, factory, version);
+public class CrimeBaseHelper extends SQLiteOpenHelper {
+    //    定义书库版本和名称变量
+    private static final int VERSION = 1;
+    private static final String DATABASE_NAME = "crimeBase.db";
+
+    public CrimeBaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+//        创建数据库并执行数据库创建表的命令
+        sqLiteDatabase.execSQL("create table " + CrimeTable.NAME +
+                "(" +"_id integer primary key autoincrement, "+
+                CrimeTable.Cols.UUID + ", " +
+                CrimeTable.Cols.TITLE + ", " +
+                CrimeTable.Cols.DATE + ", " +
+                CrimeTable.Cols.SOLVED +
+                ")"
+        );
 
     }
 
