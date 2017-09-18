@@ -13,23 +13,24 @@ import android.support.v7.app.AppCompatActivity;
  * 这是一个通用的加载Fragment的超类
  */
 
-public abstract class SimpleFragmentActivity extends AppCompatActivity{
-//    添加一个抽象方法来生成Fragment
+public abstract class SimpleFragmentActivity extends AppCompatActivity {
+    //    添加一个抽象方法来生成Fragment
     protected abstract Fragment createFragment();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        加载Fragment 托管布局
         setContentView(R.layout.activity_fragment);
 //        初始化FragmentManager
-        FragmentManager fm=getSupportFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
 //        获取Fragment的组件
-        Fragment fragment=fm.findFragmentById(R.id.fragment_container);
+        Fragment fragment = fm.findFragmentById(R.id.fragment_container);
 //        提交Fragment的事务
-        if(fragment==null){
-            fragment=createFragment();
+        if (fragment == null) {
+            fragment = createFragment();
             fm.beginTransaction()
-                    .add(R.id.fragment_container,fragment)
+                    .add(R.id.fragment_container, fragment)
                     .commit();
         }
     }

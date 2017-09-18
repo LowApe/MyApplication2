@@ -109,7 +109,7 @@ public class CrimeListFragment extends Fragment {
     }
 
 
-//      Adapter的内部类，进行获取数据，并将数据绑定到ViewHolder
+    //      Adapter的内部类，进行获取数据，并将数据绑定到ViewHolder
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
         /*
         * adapter 获取模型数据，并利用ViewHolder填充视图

@@ -23,7 +23,7 @@ public class CrimeBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 //        创建数据库并执行数据库创建表的命令
         sqLiteDatabase.execSQL("create table " + CrimeTable.NAME +
-                "(" +"_id integer primary key autoincrement, "+
+                "(" + "_id integer primary key autoincrement, " +
                 CrimeTable.Cols.UUID + ", " +
                 CrimeTable.Cols.TITLE + ", " +
                 CrimeTable.Cols.DATE + ", " +

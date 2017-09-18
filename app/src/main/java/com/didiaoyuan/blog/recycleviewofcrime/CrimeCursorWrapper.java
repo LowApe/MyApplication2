@@ -14,21 +14,22 @@ import database.CrimeDbSchema.CrimeDbSchema.CrimeTable;
  * Created by Mr.Qu on 2017/9/18.
  */
 
-public class CrimeCursorWrapper extends CursorWrapper{
+public class CrimeCursorWrapper extends CursorWrapper {
     public CrimeCursorWrapper(Cursor cursor) {
         super(cursor);
     }
-//    返回单个Crime对象
-    public Crime getCrime(){
-        String uuidString=getString(getColumnIndex(CrimeTable.Cols.UUID));
-        String title=getString(getColumnIndex(CrimeTable.Cols.TITLE));
-        long date=getLong(getColumnIndex(CrimeTable.Cols.DATE));
-        int isSolved=getInt(getColumnIndex(CrimeTable.Cols.SOLVED));
 
-        Crime crime=new Crime(UUID.fromString(uuidString));
+    //    返回单个Crime对象
+    public Crime getCrime() {
+        String uuidString = getString(getColumnIndex(CrimeTable.Cols.UUID));
+        String title = getString(getColumnIndex(CrimeTable.Cols.TITLE));
+        long date = getLong(getColumnIndex(CrimeTable.Cols.DATE));
+        int isSolved = getInt(getColumnIndex(CrimeTable.Cols.SOLVED));
+
+        Crime crime = new Crime(UUID.fromString(uuidString));
         crime.setTitle(title);
         crime.setDate(new Date(date));
-        crime.setSolved(isSolved!=0);
+        crime.setSolved(isSolved != 0);
         return crime;
     }
 }
