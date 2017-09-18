@@ -26,7 +26,7 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private CrimeAdapter mCrimeAdapter;
     private int mIndexNotific;
-    private static final int INTENT_REQUEST_CODE=1;
+//    private static final int INTENT_REQUEST_CODE=1;
     private boolean mSubtitleVisible;
 
     @Override
@@ -103,12 +103,13 @@ public class CrimeListFragment extends Fragment {
 //        Intent i=MainActivity.newIntent(getActivity(),mCrime.getId(),mIndexNotific);
 //        Log.e("click",mIndexNotific+"");
         Intent i=CrimePagerActivity.newIntent(getActivity(),mCrime.getId());
-        startActivityForResult(i,INTENT_REQUEST_CODE);
+        startActivity(i);
     }
 }
-//      返回Intent的结果
+/*//      返回Intent的结果
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.e("get111","");
         if(resultCode!=getActivity().RESULT_CANCELED){
             return;
         }
@@ -116,8 +117,13 @@ public class CrimeListFragment extends Fragment {
             if(data==null){
                 return;
             }
+            boolean getState=data.getBooleanExtra("state2",true);
+            mSubtitleVisible=getState;
+//            mSubtitleVisible=getActivity().getIntent().getBooleanExtra("state2",true);
+            Log.e("get",mSubtitleVisible+"");
+
         }
-    }
+    }*/
 //      Adapter的内部类，进行获取数据，并将数据绑定到ViewHolder
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder>{
         /*
@@ -169,7 +175,6 @@ public class CrimeListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.fragment_crime_list,menu);
         MenuItem subtitleItem=menu.findItem(R.id.menu_item_show_subtitle);
-//        Log.e("key",mSubtitleVisible+"");
         if(mSubtitleVisible){
             subtitleItem.setTitle(R.string.hide_subtitle);
         }else{

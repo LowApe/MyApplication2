@@ -1,7 +1,9 @@
 package com.didiaoyuan.blog.recycleviewofcrime;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -63,7 +65,7 @@ public class CrimePagerActivity extends AppCompatActivity {
 //        i.putExtra("CrimeId",crimeID);
 //        return i;
 //    }
-
+//返回按钮不重置数据，方法1
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
