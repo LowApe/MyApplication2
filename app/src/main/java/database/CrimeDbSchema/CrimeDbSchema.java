@@ -2,6 +2,7 @@ package database.CrimeDbSchema;
 
 /**
  * Created by Mr.Qu on 2017/9/18.
+ * 定义数据表元素的 String 常量
  */
 
 public class CrimeDbSchema {
