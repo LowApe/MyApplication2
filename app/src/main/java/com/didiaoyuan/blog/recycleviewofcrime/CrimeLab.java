@@ -21,8 +21,8 @@ public class CrimeLab {
     //    声明变量
     private static CrimeLab sCrimeLab;
     //    private List<Crime> mCrimes;
-    private Context mContext;
-    private SQLiteDatabase mDatabase;
+    private Context mContext;/*定义一个上下文*/
+    private SQLiteDatabase mDatabase;/*定义数据库变量*/
 
     public static CrimeLab get(Context context) {
         if (sCrimeLab == null) {
@@ -43,7 +43,7 @@ public class CrimeLab {
         mContext = context.getApplicationContext();
 //        写入数据库变量
         mDatabase = new CrimeBaseHelper(mContext)
-                .getWritableDatabase();
+                .getWritableDatabase(); /*通过helper 类获取一个可以写入的数据库*/
 
     }
 

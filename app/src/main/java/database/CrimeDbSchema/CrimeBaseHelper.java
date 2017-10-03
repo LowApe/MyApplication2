@@ -19,7 +19,7 @@ public class CrimeBaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
-    @Override
+    @Override/* onCreate 创建数据库表 */
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
 //        创建数据库并执行数据库创建表的命令
         sqLiteDatabase.execSQL("create table " + CrimeTable.NAME +
@@ -33,7 +33,7 @@ public class CrimeBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    @Override
+    @Override /*onUpgrade处理数据库版本问题*/
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
     }
