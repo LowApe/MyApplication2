@@ -84,7 +84,7 @@ public class CrimeLab {
         }
 
     }
-
+/*创建 ContentValues 以键值对的形式写入*/
     private static ContentValues getContentValues(Crime crime) {
         ContentValues values = new ContentValues();
         values.put(CrimeTable.Cols.UUID, crime.getId().toString());
@@ -93,17 +93,19 @@ public class CrimeLab {
         values.put(CrimeTable.Cols.SOLVED, crime.isSolved() ? 1 : 0);
         return values;
     }
-
+/* addCrime 方法实现数据存入数据库*/
     public void addCrime(Crime c) {
 //      mCrimes.add(c);
-        ContentValues values = getContentValues(c);
-        mDatabase.insert(CrimeTable.NAME, null, values);
+        ContentValues values = getContentValues(c);/* ContentValues 辅助类获取输入的书库*/
+        mDatabase.insert(CrimeTable.NAME, null, values);/* 数据库变量插入数据#1：数据库名称#2：#3：插入辅助类的数据*/
     }
-
+/* updateCrime 方法实现更新记录，更新具体的位置*/
     public void updateCrime(Crime crime) {
-        String uuidString = crime.getId().toString();
+        String uuidString = crime.getId().toString();/*更新具体那一条*/
         ContentValues values = getContentValues(crime);
-        mDatabase.update(CrimeTable.NAME, values, CrimeTable.Cols.UUID + "=?", new String[]{uuidString});
+        mDatabase.update(CrimeTable.NAME, values, CrimeTable.Cols.UUID + "=?", new String[]{uuidString});/*
+        update 方法后两个参数对用 sql 语句的where 条件=？
+        */
     }
 
     private CrimeCursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
