@@ -36,4 +36,16 @@
         android:layout_height="wrap_content"
         android:text="solved"
         />
+    <Button
+        android:id="@+id/choose_suspect"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="选择联系人"
+        />
+    <Button
+        android:id="@+id/send_report"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送短消息的应用"
+        />
 </LinearLayout>
