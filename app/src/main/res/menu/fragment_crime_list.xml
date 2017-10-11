@@ -12,4 +12,9 @@
         android:title="@string/show_subtitle"
         app:showAsAction="ifRoom"
         />
+    <item
+        android:id="@+id/menu_item_delete_crime"
+        android:title="Delete Crime"
+        app:showAsAction="ifRoom"
+        />
 </menu>

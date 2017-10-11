@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -162,6 +163,7 @@ public class CrimeListFragment extends Fragment {
         updateUI();
     }
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -184,6 +186,10 @@ public class CrimeListFragment extends Fragment {
                         , crime.getId());
                 startActivity(i);
                 return true;
+            case R.id.menu_item_delete_crime:
+                CrimeLab.get(getActivity()).deleteCrime();
+                updateUI2();
+                return true;
             case R.id.menu_item_show_subtitle:
                 mSubtitleVisible = !mSubtitleVisible;
                 getActivity().invalidateOptionsMenu();
@@ -193,7 +199,18 @@ public class CrimeListFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+    /*删除操作后，重新加载一遍数据库的数据*/
+    private void updateUI2() {
+        CrimeLab crimeLab = CrimeLab.get(getActivity());
+        List<Crime> crimes = crimeLab.getCrimes();
 
+        mCrimeAdapter = new CrimeAdapter(crimes);
+        mRecyclerView.setAdapter(mCrimeAdapter);
+
+        mCrimeAdapter.setCrimes(crimes);
+        mCrimeAdapter.notifyDataSetChanged();
+        updateSubtitle();
+    }
     private void updateSubtitle() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         int crimeCount = crimeLab.getCrimes().size();

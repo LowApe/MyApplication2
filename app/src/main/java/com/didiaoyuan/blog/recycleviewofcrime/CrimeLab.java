@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +108,11 @@ public class CrimeLab {
         update 方法后两个参数对用 sql 语句的where 条件=？
         */
     }
-
+/* deleteCrime 方法实现删除记录*/
+    public void deleteCrime(){
+        mDatabase.delete(CrimeTable.NAME,null,new String[]{});
+        /*删除所有记录，没有条件*/
+    }
     private CrimeCursorWrapper queryCrimes(String whereClause, String[] whereArgs) {
         Cursor cursor = mDatabase.query(
                 CrimeTable.NAME,
