@@ -3,6 +3,7 @@ package com.didiaoyuan.blog.recycleviewofcrime;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -124,9 +125,21 @@ public class CrimeFragment extends Fragment {
             public void onClick(View view) {
                 Intent i=new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
+                i=Intent.createChooser(i,"选择你想使用的");
                 startActivity(i);
             }
         });
+        final Intent pickContact=new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        mSuspect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                startActivityForResult(pickContact,1);
+            }
+        });
+        if(mCrime.getPeopleName()!=null){
+            mSuspect.setText(mCrime.getPeopleName());
+        }
         return v;
     }
 
