@@ -26,6 +26,8 @@ public class CrimeFragment extends Fragment {
     private EditText mEditText;
     private Button mDateButton;
     private CheckBox mCheckBox;
+    private Button mSuspect;
+    private Button mSendMsg;
     private static int mClickIndex;
     private static final int RELATIVE_REQUEST_CODE = 0;
 
@@ -56,6 +58,8 @@ public class CrimeFragment extends Fragment {
         mEditText = v.findViewById(R.id.content_EditText);
         mDateButton = v.findViewById(R.id.crime_date);
         mCheckBox = v.findViewById(R.id.crime_solve);
+        mSuspect = v.findViewById(R.id.choose_suspect);
+        mSendMsg = v.findViewById(R.id.send_report);
 //        更新视图
         mEditText.setText(mCrime.getTitle());
         mDateButton.setText(mCrime.getDate().toString());
@@ -113,6 +117,14 @@ public class CrimeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mCrime.setSolved(b);
                 returnResult();
+            }
+        });
+        mSendMsg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(Intent.ACTION_SEND);
+                i.setType("text/plain");
+                startActivity(i);
             }
         });
         return v;
