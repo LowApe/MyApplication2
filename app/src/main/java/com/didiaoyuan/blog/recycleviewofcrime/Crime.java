@@ -1,5 +1,6 @@
 package com.didiaoyuan.blog.recycleviewofcrime;
 
+import java.io.File;
 import java.util.Date;
 import java.util.UUID;
 
@@ -58,5 +59,9 @@ public class Crime {
 
     public void setPeopleName(String peopleName) {
         mPeopleName = peopleName;
+    }
+/*获取照片名称*/
+    public String getPhotoFilename(){
+        return "IMG_"+getId().toString()+".jpg";
     }
 }

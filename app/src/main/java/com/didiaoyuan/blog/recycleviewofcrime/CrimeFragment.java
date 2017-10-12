@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -25,8 +26,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import java.io.File;
 import java.util.Date;
 import java.util.UUID;
+
+import Util.PictureUtil;
 
 public class CrimeFragment extends Fragment {
     //    变量声明
@@ -38,6 +42,7 @@ public class CrimeFragment extends Fragment {
     private Button mSendMsg;
     private ImageButton mImageButton;
     private ImageView mImageView;
+    private File mPhotoFile;
     private static int mClickIndex;
     private static final int RELATIVE_REQUEST_CODE = 0;
 
@@ -50,7 +55,7 @@ public class CrimeFragment extends Fragment {
 //        UUID crimeID= (UUID) getActivity().getIntent().getSerializableExtra("Key");
 //        通过UUID获取指定的详情视图
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeID);
-
+        mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
     }
 
     @Override
@@ -70,7 +75,8 @@ public class CrimeFragment extends Fragment {
         mCheckBox = v.findViewById(R.id.crime_solve);
         mSuspect = v.findViewById(R.id.choose_suspect);
         mSendMsg = v.findViewById(R.id.send_report);
-        mImageButton=v.findViewById(R.id.use_camera);
+        mImageButton = v.findViewById(R.id.use_camera);
+        mImageView = v.findViewById(R.id.show_image);
 //        更新视图
         mEditText.setText(mCrime.getTitle());
         mDateButton.setText(mCrime.getDate().toString());
@@ -142,7 +148,7 @@ public class CrimeFragment extends Fragment {
 //                i = Intent.createChooser(i, "选择你想使用的");
 //                startActivity(i);
                 /*利用 ShareCompat 类 发送消息*/
-                ShareCompat.IntentBuilder intentBuilder=ShareCompat.IntentBuilder.from(getActivity());
+                ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(getActivity());
                 intentBuilder.setType("text/plain");
                 intentBuilder.setText("text");
                 intentBuilder.setSubject("what");
@@ -154,8 +160,8 @@ public class CrimeFragment extends Fragment {
        /* *//*给 Intent 添加类别，作用是不让联系人应用与你的 intent 匹配*//*
         pickContact.addCategory(Intent.CATEGORY_HOME);*/
         /*利用 packageManage 进行自检，如果没有匹配到就做处理，防止应用崩溃*/
-        PackageManager packageManager=getActivity().getPackageManager();
-        if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY)==null){
+        PackageManager packageManager = getActivity().getPackageManager();
+        if (packageManager.resolveActivity(pickContact, PackageManager.MATCH_DEFAULT_ONLY) == null) {
             mSuspect.setEnabled(false);
         }
         /*联系人的监听事件*/
@@ -169,16 +175,36 @@ public class CrimeFragment extends Fragment {
         if (mCrime.getPeopleName() != null) {
             mSuspect.setText(mCrime.getPeopleName());
         }
-        /**/
+
+        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        boolean canTakePhoto = mPhotoFile != null && captureImage.resolveActivity(packageManager) != null;
+        mImageButton.setEnabled(canTakePhoto);
+        if (canTakePhoto) {
+            /*如果可以进行拍照获取图片资源的位置*/
+            Uri uri = Uri.fromFile(mPhotoFile);
+            /*通过 MediaStore.EXTRA_OUTPUT 指向 uri 保存全尺寸照片*/
+            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        }
+        /*图片监听事件*/
         mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(i,2);
+
+                startActivityForResult(captureImage, 2);
             }
         });
+        updatePhoteView();
         return v;
 
+    }
+
+    private void updatePhoteView() {
+        if(mPhotoFile ==null || !mPhotoFile.exists()){
+            mImageView.setImageDrawable(null);
+        }else{
+            Bitmap bitmap = PictureUtil.getScaledBitmap(mPhotoFile.getPath(),getActivity());
+            mImageView.setImageBitmap(bitmap);
+        }
     }
 
     /*
@@ -212,34 +238,36 @@ public class CrimeFragment extends Fragment {
             Date date = (Date) data.getSerializableExtra("Date");
             mCrime.setDate(date);
             mDateButton.setText(mCrime.getDate().toString());
-        } else if (requestCode == 1 && data != null){
+        } else if (requestCode == 1 && data != null) {
             /*创建一个Uri 数据地址*/
-            Uri contactUri=data.getData();
+            Uri contactUri = data.getData();
             /*创建查询语句*/
-            String[] queryFields=new String[]{
+            String[] queryFields = new String[]{
 //                    ContactsContract.Contacts.DISPLAY_NAME
                     ContactsContract.Contacts._ID
             };
             /*查询联系人数据库，并返回一个 cursor*/
-            Cursor c=getActivity().getContentResolver().query(contactUri,queryFields,null,null,null);
+            Cursor c = getActivity().getContentResolver().query(contactUri, queryFields, null, null, null);
 
             try {
                 c.moveToFirst();
             /*判断返回结果是否为0 表示没有数据*/
-                if(c.getCount()==0){
+                if (c.getCount() == 0) {
                     return;
                 }
                 /*String suspect=c.getString(0);
                 mCrime.setPeopleName(suspect);
                 mSuspect.setText(suspect);*/
-                Uri number=Uri.parse("tel:"+c.getString(0));
-                Intent i=new Intent(Intent.ACTION_DIAL,number);
+                Uri number = Uri.parse("tel:" + c.getString(0));
+                Intent i = new Intent(Intent.ACTION_DIAL, number);
                 startActivity(i);
 
 
-            }finally {
+            } finally {
                 c.close();
             }
+        } else if (requestCode == 2) {
+            updatePhoteView();
         }
     }
 }
