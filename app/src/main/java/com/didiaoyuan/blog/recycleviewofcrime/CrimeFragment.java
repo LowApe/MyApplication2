@@ -2,6 +2,7 @@ package com.didiaoyuan.blog.recycleviewofcrime;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -135,6 +136,13 @@ public class CrimeFragment extends Fragment {
             }
         });
         final Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        /*给 Intent 添加类别，作用是不让联系人应用与你的 intent 匹配*/
+        pickContact.addCategory(Intent.CATEGORY_HOME);
+        /*利用 packageManage 进行自检，如果没有匹配到就做处理，防止应用崩溃*/
+        PackageManager packageManager=getActivity().getPackageManager();
+        if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY)==null){
+            mSuspect.setEnabled(false);
+        }
         mSuspect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
