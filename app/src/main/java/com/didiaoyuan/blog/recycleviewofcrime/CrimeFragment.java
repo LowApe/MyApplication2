@@ -125,6 +125,9 @@ public class CrimeFragment extends Fragment {
             public void onClick(View view) {
                 Intent i=new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
+                /*添加正文内容*/
+                i.putExtra(Intent.EXTRA_TEXT,"TEXT");
+                i.putExtra(Intent.EXTRA_SUBJECT,"SUBJECT");
                 i=Intent.createChooser(i,"选择你想使用的");
                 startActivity(i);
             }
