@@ -2,6 +2,8 @@ package com.didiaoyuan.blog.recycleviewofcrime;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
@@ -123,27 +125,28 @@ public class CrimeFragment extends Fragment {
         mSendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i=new Intent(Intent.ACTION_SEND);
+                Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
                 /*添加正文内容*/
-                i.putExtra(Intent.EXTRA_TEXT,"TEXT");
-                i.putExtra(Intent.EXTRA_SUBJECT,"SUBJECT");
-                i=Intent.createChooser(i,"选择你想使用的");
+                i.putExtra(Intent.EXTRA_TEXT, "TEXT");
+                i.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
+                i = Intent.createChooser(i, "选择你想使用的");
                 startActivity(i);
             }
         });
-        final Intent pickContact=new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        final Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         mSuspect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                startActivityForResult(pickContact,1);
+                startActivityForResult(pickContact, 1);
             }
         });
-        if(mCrime.getPeopleName()!=null){
+        if (mCrime.getPeopleName() != null) {
             mSuspect.setText(mCrime.getPeopleName());
         }
         return v;
+
     }
 
     /*
@@ -169,6 +172,7 @@ public class CrimeFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /*该 Intent 包含 Uri 数据 ，它是数据定位符，指向用户所选联系人*/
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
@@ -176,6 +180,28 @@ public class CrimeFragment extends Fragment {
             Date date = (Date) data.getSerializableExtra("Date");
             mCrime.setDate(date);
             mDateButton.setText(mCrime.getDate().toString());
+        } else if (requestCode == 1 && data != null){
+            /*创建一个Uri 数据地址*/
+            Uri contactUri=data.getData();
+            /*创建查询语句*/
+            String[] queryFields=new String[]{
+                    ContactsContract.Contacts.DISPLAY_NAME
+            };
+            /*查询联系人数据库，并返回一个 cursor*/
+            Cursor c=getActivity().getContentResolver().query(contactUri,queryFields,null,null,null);
+
+            try {
+                c.moveToFirst();
+            /*判断返回结果是否为0 表示没有数据*/
+                if(c.getCount()==0){
+                    return;
+                }
+                String suspect=c.getString(0);
+                mCrime.setPeopleName(suspect);
+                mSuspect.setText(suspect);
+            }finally {
+                c.close();
+            }
         }
     }
 }
