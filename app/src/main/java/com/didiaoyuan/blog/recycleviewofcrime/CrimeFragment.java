@@ -10,6 +10,7 @@ import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ShareCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -126,18 +127,25 @@ public class CrimeFragment extends Fragment {
         mSendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(Intent.ACTION_SEND);
-                i.setType("text/plain");
-                /*添加正文内容*/
-                i.putExtra(Intent.EXTRA_TEXT, "TEXT");
-                i.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
-                i = Intent.createChooser(i, "选择你想使用的");
-                startActivity(i);
+//                Intent i = new Intent(Intent.ACTION_SEND);
+//                i.setType("text/plain");
+//                /*添加正文内容*/
+//                i.putExtra(Intent.EXTRA_TEXT, "TEXT");
+//                i.putExtra(Intent.EXTRA_SUBJECT, "SUBJECT");
+//                i = Intent.createChooser(i, "选择你想使用的");
+//                startActivity(i);
+                /*利用 ShareCompat 类 发送消息*/
+                ShareCompat.IntentBuilder intentBuilder=ShareCompat.IntentBuilder.from(getActivity());
+                intentBuilder.setType("text/plain");
+                intentBuilder.setText("text");
+                intentBuilder.setSubject("what");
+                intentBuilder.setChooserTitle("select");
+                intentBuilder.startChooser();
             }
         });
         final Intent pickContact = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        /*给 Intent 添加类别，作用是不让联系人应用与你的 intent 匹配*/
-        pickContact.addCategory(Intent.CATEGORY_HOME);
+       /* *//*给 Intent 添加类别，作用是不让联系人应用与你的 intent 匹配*//*
+        pickContact.addCategory(Intent.CATEGORY_HOME);*/
         /*利用 packageManage 进行自检，如果没有匹配到就做处理，防止应用崩溃*/
         PackageManager packageManager=getActivity().getPackageManager();
         if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY)==null){
