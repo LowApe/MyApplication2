@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +22,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import java.util.Date;
 import java.util.UUID;
@@ -33,6 +36,8 @@ public class CrimeFragment extends Fragment {
     private CheckBox mCheckBox;
     private Button mSuspect;
     private Button mSendMsg;
+    private ImageButton mImageButton;
+    private ImageView mImageView;
     private static int mClickIndex;
     private static final int RELATIVE_REQUEST_CODE = 0;
 
@@ -65,6 +70,7 @@ public class CrimeFragment extends Fragment {
         mCheckBox = v.findViewById(R.id.crime_solve);
         mSuspect = v.findViewById(R.id.choose_suspect);
         mSendMsg = v.findViewById(R.id.send_report);
+        mImageButton=v.findViewById(R.id.use_camera);
 //        更新视图
         mEditText.setText(mCrime.getTitle());
         mDateButton.setText(mCrime.getDate().toString());
@@ -124,6 +130,7 @@ public class CrimeFragment extends Fragment {
                 returnResult();
             }
         });
+        /*发送短信的监听事件*/
         mSendMsg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -151,6 +158,7 @@ public class CrimeFragment extends Fragment {
         if (packageManager.resolveActivity(pickContact,PackageManager.MATCH_DEFAULT_ONLY)==null){
             mSuspect.setEnabled(false);
         }
+        /*联系人的监听事件*/
         mSuspect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,6 +169,14 @@ public class CrimeFragment extends Fragment {
         if (mCrime.getPeopleName() != null) {
             mSuspect.setText(mCrime.getPeopleName());
         }
+        /**/
+        mImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(i,2);
+            }
+        });
         return v;
 
     }
