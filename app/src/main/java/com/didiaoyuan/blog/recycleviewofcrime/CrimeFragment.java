@@ -201,7 +201,8 @@ public class CrimeFragment extends Fragment {
             Uri contactUri=data.getData();
             /*创建查询语句*/
             String[] queryFields=new String[]{
-                    ContactsContract.Contacts.DISPLAY_NAME
+//                    ContactsContract.Contacts.DISPLAY_NAME
+                    ContactsContract.Contacts._ID
             };
             /*查询联系人数据库，并返回一个 cursor*/
             Cursor c=getActivity().getContentResolver().query(contactUri,queryFields,null,null,null);
@@ -212,9 +213,14 @@ public class CrimeFragment extends Fragment {
                 if(c.getCount()==0){
                     return;
                 }
-                String suspect=c.getString(0);
+                /*String suspect=c.getString(0);
                 mCrime.setPeopleName(suspect);
-                mSuspect.setText(suspect);
+                mSuspect.setText(suspect);*/
+                Uri number=Uri.parse("tel:"+c.getString(0));
+                Intent i=new Intent(Intent.ACTION_DIAL,number);
+                startActivity(i);
+
+
             }finally {
                 c.close();
             }
