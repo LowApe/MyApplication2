@@ -20,7 +20,7 @@ public class PictureUtil {
         float srcHeight = options.outHeight;
 
 //      指出如何缩放
-        int inSampleSize = 2;
+        int inSampleSize = 1;
         if (srcHeight > destHeight || srcWidth > destWidth) {
             if (srcWidth>srcHeight){
                 inSampleSize=Math.round(srcHeight/destHeight);
