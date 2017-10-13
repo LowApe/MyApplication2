@@ -13,9 +13,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.ShareCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +43,7 @@ public class CrimeFragment extends Fragment {
     private ImageButton mImageButton;
     private ImageView mImageView;
     private File mPhotoFile;
+    private ImageView mDialogView;
     private static int mClickIndex;
     private static final int RELATIVE_REQUEST_CODE = 0;
 
@@ -77,6 +78,7 @@ public class CrimeFragment extends Fragment {
         mSendMsg = v.findViewById(R.id.send_report);
         mImageButton = v.findViewById(R.id.use_camera);
         mImageView = v.findViewById(R.id.show_image);
+
 //        更新视图
         mEditText.setText(mCrime.getTitle());
         mDateButton.setText(mCrime.getDate().toString());
@@ -193,16 +195,30 @@ public class CrimeFragment extends Fragment {
                 startActivityForResult(captureImage, 2);
             }
         });
-        updatePhoteView();
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View v=LayoutInflater.from(getActivity()).inflate(R.layout.dialog_image,null);
+                mImageView=v.findViewById(R.id.dialog_view);
+                AlertDialog dialog= new AlertDialog.Builder(getActivity())
+                        .create();
+                Bitmap bitmap = PictureUtil.getScaledBitmap(mPhotoFile.getPath(), getActivity());
+                mImageView.setImageBitmap(bitmap);
+                dialog.setView(v);
+                dialog.show();
+
+            }
+        });
+        updatePhotoView();
         return v;
 
     }
 
-    private void updatePhoteView() {
-        if(mPhotoFile ==null || !mPhotoFile.exists()){
+    private void updatePhotoView() {
+        if (mPhotoFile == null || !mPhotoFile.exists()) {
             mImageView.setImageDrawable(null);
-        }else{
-            Bitmap bitmap = PictureUtil.getScaledBitmap(mPhotoFile.getPath(),getActivity());
+        } else {
+            Bitmap bitmap = PictureUtil.getScaledBitmap(mPhotoFile.getPath(), getActivity());
             mImageView.setImageBitmap(bitmap);
         }
     }
@@ -267,7 +283,7 @@ public class CrimeFragment extends Fragment {
                 c.close();
             }
         } else if (requestCode == 2) {
-            updatePhoteView();
+            updatePhotoView();
         }
     }
 }
