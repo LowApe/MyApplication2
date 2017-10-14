@@ -44,6 +44,7 @@ public class CrimeFragment extends Fragment {
     private ImageView mImageView;
     private File mPhotoFile;
     private ImageView mDialogView;
+    private View v1;
     private static int mClickIndex;
     private static final int RELATIVE_REQUEST_CODE = 0;
 
@@ -57,6 +58,7 @@ public class CrimeFragment extends Fragment {
 //        通过UUID获取指定的详情视图
         mCrime = CrimeLab.get(getActivity()).getCrime(crimeID);
         mPhotoFile = CrimeLab.get(getActivity()).getPhotoFile(mCrime);
+
     }
 
     @Override
@@ -70,6 +72,8 @@ public class CrimeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.activity_crime_fragment, container, false);
+        v1=LayoutInflater.from(getActivity()).inflate(R.layout.dialog_image,null);
+        mDialogView=v1.findViewById(R.id.dialog_view);
 //        获取组件
         mEditText = v.findViewById(R.id.content_EditText);
         mDateButton = v.findViewById(R.id.crime_date);
@@ -198,14 +202,14 @@ public class CrimeFragment extends Fragment {
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View v=LayoutInflater.from(getActivity()).inflate(R.layout.dialog_image,null);
-                mImageView=v.findViewById(R.id.dialog_view);
-                AlertDialog dialog= new AlertDialog.Builder(getActivity())
-                        .create();
+//                AlertDialog dialog= new AlertDialog.Builder(getActivity())
+//                        .create();
+                ImageFragment dialog=new ImageFragment(v1);
+                FragmentManager manager=getFragmentManager();
                 Bitmap bitmap = PictureUtil.getScaledBitmap(mPhotoFile.getPath(), getActivity());
-                mImageView.setImageBitmap(bitmap);
-                dialog.setView(v);
-                dialog.show();
+                mDialogView.setImageBitmap(bitmap);
+//                dialog.setView(v1);
+                dialog.show(manager,"xxx");
 
             }
         });
