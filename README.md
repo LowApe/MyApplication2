@@ -12,4 +12,7 @@
 
 ## 第三阶段
 > 在平板上实现双版面，并通过右边详情页面，更新到左边的列表
-![](http://ww1.sinaimg.cn/large/006rAlqhly1fkk15mhdb2j30ml0cymz0.jpg)
+
+![](http://ww1.sinaimg.cn/mw690/006rAlqhly1fkk15mhdb2j30ml0cymz0.jpg)
+
+## 第四阶段
