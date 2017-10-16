@@ -2,6 +2,7 @@ package com.didiaoyuan.blog.recycleviewofcrime;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -16,12 +17,16 @@ import android.support.v7.app.AppCompatActivity;
 public abstract class SimpleFragmentActivity extends AppCompatActivity {
     //    添加一个抽象方法来生成Fragment
     protected abstract Fragment createFragment();
-
+    @LayoutRes
+    protected int getLayoutResId(){
+        return R.layout.activity_twopane;
+    }
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        加载Fragment 托管布局
-        setContentView(R.layout.activity_fragment);
+//        setContentView(R.layout.activity_fragment);
+        setContentView(getLayoutResId());
 //        初始化FragmentManager
         FragmentManager fm = getSupportFragmentManager();
 //        获取Fragment的组件
