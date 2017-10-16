@@ -33,7 +33,7 @@ public class CrimePagerActivity extends AppCompatActivity {
 //                获取模型层列表的位置
                 Crime crime = mCrimes.get(position);
 //              生成一个拥有特定位置的Fragment
-                return CrimeFragment.newInstance(crime.getId(), position);
+                return CrimeFragment.newInstance(crime.getId());
             }
 
             @Override

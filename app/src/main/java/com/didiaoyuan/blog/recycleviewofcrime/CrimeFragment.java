@@ -230,8 +230,8 @@ public class CrimeFragment extends Fragment {
     /*
     * 返回一个带参数的Fragment
     * */
-    public static CrimeFragment newInstance(UUID crimeID, int index) {
-        mClickIndex = index;
+    public static CrimeFragment newInstance(UUID crimeID) {
+//        mClickIndex = index;
         Bundle args = new Bundle();
         args.putSerializable("UUID", crimeID);
         CrimeFragment fragment = new CrimeFragment();

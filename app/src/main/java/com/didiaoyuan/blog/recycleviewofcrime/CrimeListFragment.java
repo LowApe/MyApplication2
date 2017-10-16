@@ -1,5 +1,6 @@
 package com.didiaoyuan.blog.recycleviewofcrime;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,6 +28,25 @@ public class CrimeListFragment extends Fragment {
     private int mIndexNotific;
     //    private static final int INTENT_REQUEST_CODE=1;
     private boolean mSubtitleVisible;
+    //    创建一个回调接口变量
+    private Callbacks mCallbacks;
+
+    //    创建一个回调接口
+    public interface Callbacks {
+        void onCrimeSelected(Crime crime);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks = (Callbacks) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,8 +124,9 @@ public class CrimeListFragment extends Fragment {
             mIndexNotific = mRecyclerView.getChildAdapterPosition(view);
 //        Intent i=MainActivity.newIntent(getActivity(),mCrime.getId(),mIndexNotific);
 //        Log.e("click",mIndexNotific+"");
-            Intent i = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
-            startActivity(i);
+//            Intent i = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
+//            startActivity(i);
+            mCallbacks.onCrimeSelected(mCrime);
         }
     }
 
@@ -182,9 +203,11 @@ public class CrimeListFragment extends Fragment {
             case R.id.menu_item_new_crime:
                 Crime crime = new Crime();
                 CrimeLab.get(getActivity()).addCrime(crime);
-                Intent i = CrimePagerActivity.newIntent(getActivity()
-                        , crime.getId());
-                startActivity(i);
+//                Intent i = CrimePagerActivity.newIntent(getActivity()
+//                        , crime.getId());
+//                startActivity(i);
+                updateUI();
+                mCallbacks.onCrimeSelected(crime);
                 return true;
             case R.id.menu_item_delete_crime:
                 CrimeLab.get(getActivity()).deleteCrime();
@@ -199,6 +222,7 @@ public class CrimeListFragment extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
+
     /*删除操作后，重新加载一遍数据库的数据*/
     private void updateUI2() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
@@ -211,6 +235,7 @@ public class CrimeListFragment extends Fragment {
         mCrimeAdapter.notifyDataSetChanged();
         updateSubtitle();
     }
+
     private void updateSubtitle() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         int crimeCount = crimeLab.getCrimes().size();
