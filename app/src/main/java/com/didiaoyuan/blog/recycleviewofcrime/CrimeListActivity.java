@@ -3,7 +3,7 @@ package com.didiaoyuan.blog.recycleviewofcrime;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
-public class CrimeListActivity extends SimpleFragmentActivity implements CrimeListFragment.Callbacks{
+public class CrimeListActivity extends SimpleFragmentActivity implements CrimeListFragment.Callbacks,CrimeFragment.CallBacks{
 
     @Override
     protected Fragment createFragment() {
@@ -28,5 +28,11 @@ public class CrimeListActivity extends SimpleFragmentActivity implements CrimeLi
                     .replace(R.id.detail_fragment_container,newDetail)
                     .commit();
         }
+    }
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
+        CrimeListFragment crimeListFragment= (CrimeListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        crimeListFragment.updateUI();
     }
 }

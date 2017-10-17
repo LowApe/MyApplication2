@@ -71,7 +71,7 @@ public class CrimeListFragment extends Fragment {
     }
 
     //    更新数据与视图方法
-    private void updateUI() {
+    public void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
         if (mCrimeAdapter == null) {

@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import java.util.List;
 import java.util.UUID;
 
-public class CrimePagerActivity extends AppCompatActivity {
+public class CrimePagerActivity extends AppCompatActivity implements CrimeFragment.CallBacks{
     //声明变量
     private ViewPager mViewPager;
     private List<Crime> mCrimes;
@@ -73,5 +73,10 @@ public class CrimePagerActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
+
     }
 }

@@ -1,6 +1,7 @@
 package com.didiaoyuan.blog.recycleviewofcrime;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -47,6 +48,7 @@ public class CrimeFragment extends Fragment {
     private View v1;
     private static int mClickIndex;
     private static final int RELATIVE_REQUEST_CODE = 0;
+    private CallBacks mCallbacks;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,6 +100,7 @@ public class CrimeFragment extends Fragment {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 //         添加动作
                 mCrime.setTitle(charSequence.toString());
+                updateCrime();
                 returnResult();
             }
 
@@ -139,6 +142,7 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 mCrime.setSolved(b);
+                updateCrime();
                 returnResult();
             }
         });
@@ -257,6 +261,7 @@ public class CrimeFragment extends Fragment {
         if (requestCode == RELATIVE_REQUEST_CODE) {
             Date date = (Date) data.getSerializableExtra("Date");
             mCrime.setDate(date);
+            updateCrime();
             mDateButton.setText(mCrime.getDate().toString());
         } else if (requestCode == 1 && data != null) {
             /*创建一个Uri 数据地址*/
@@ -289,5 +294,26 @@ public class CrimeFragment extends Fragment {
         } else if (requestCode == 2) {
             updatePhotoView();
         }
+    }
+
+    public interface CallBacks{
+        void onCrimeUpdated(Crime crime);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mCallbacks= (CallBacks) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks=null;
+    }
+
+    private void updateCrime(){
+        CrimeLab.get(getActivity()).updateCrime(mCrime);
+        mCallbacks.onCrimeUpdated(mCrime);
     }
 }
