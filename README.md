@@ -1,5 +1,5 @@
 # MyApplication2
-《Android编程权威指南》第二个项目
+实现陋习记录，记录时间，照片，调用电话以及短信发送
 ## 第一阶段
 > 利用 RecycleView 实现项目清单列表，并使用 ViewPager 实现详情页面的作业滑动
 
